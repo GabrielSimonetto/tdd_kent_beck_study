@@ -4,4 +4,5 @@ Repository used to follow along Kent Beck's TDD book
 ### Tracking:
 
 - [x] Chapter 3
-- [ ] Chapter 4
+- [x] Chapter 4
+- [ ] Chapter 5
