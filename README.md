@@ -5,4 +5,6 @@ Repository used to follow along Kent Beck's TDD book
 
 - [x] Chapter 3
 - [x] Chapter 4
-- [ ] Chapter 5
+- [x] Chapter 5
+- [x] Chapter 6
+- [ ] Chapter 7
