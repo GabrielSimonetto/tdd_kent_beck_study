@@ -10,11 +10,17 @@ from money.money import Dollar, Franc
         (Franc, 5, 3, 15),
     ]
 )
-def test_multiplication_FRANCS(currency, amount, multiplier, expected):
+def test_multiplication(currency, amount, multiplier, expected):
     money = currency(amount)
     assert currency(expected) == money.times(multiplier)
 
-
-def test_equality():
-    assert Dollar(5) == Dollar(5)
-    assert Dollar(5) != Dollar(4)
+@pytest.mark.parametrize(
+    "currency",
+    [
+        Dollar,
+        Franc
+    ]
+)
+def test_equality(currency):
+    assert currency(5) == currency(5)
+    assert currency(5) != currency(4)
