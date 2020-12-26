@@ -1,4 +1,6 @@
-class Money:
+from abc import ABC, abstractmethod
+
+class Money(ABC):
     def __init__(self, amount: int):
         self.amount = amount
 
@@ -8,6 +10,16 @@ class Money:
             and isinstance(self, type(other))
         )
 
+    @abstractmethod
+    def times(self, multiplier):
+        pass
+
+    def dollar(amount):
+        return Dollar(amount)
+
+    def franc(amount):
+        return Franc(amount)
+
 
 class Dollar(Money):
     def times(self, multiplier: int):
@@ -15,4 +27,4 @@ class Dollar(Money):
 
 class Franc(Money):
     def times(self, multiplier: int):
-        return Franc(self.amount * multiplier)
+        return Franc(self.amount * multiplier)  
