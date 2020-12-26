@@ -14,6 +14,7 @@ def test_multiplication(currency, amount, multiplier, expected):
     money = currency(amount)
     assert currency(expected) == money.times(multiplier)
 
+
 @pytest.mark.parametrize(
     "currency",
     [
@@ -24,3 +25,7 @@ def test_multiplication(currency, amount, multiplier, expected):
 def test_equality(currency):
     assert currency(5) == currency(5)
     assert currency(5) != currency(4)
+
+
+def test_non_equal_currency():
+    assert Dollar(5) != Franc(5)

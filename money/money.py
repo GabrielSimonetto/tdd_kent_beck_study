@@ -2,15 +2,17 @@ class Money:
     def __init__(self, amount: int):
         self.amount = amount
 
-    def times(self, multiplier: int):
-        return Money(self.amount * multiplier)
-
     def __eq__(self, other):
-        return self.amount == other.amount
+        return (
+            self.amount == other.amount
+            and isinstance(self, type(other))
+        )
 
 
 class Dollar(Money):
-    pass
+    def times(self, multiplier: int):
+        return Dollar(self.amount * multiplier)
 
 class Franc(Money):
-    pass
+    def times(self, multiplier: int):
+        return Franc(self.amount * multiplier)

@@ -8,7 +8,9 @@ Repository used to follow along Kent Beck's TDD book
 - [x] Chapter 5
 - [x] Chapter 6
 - [x] Chapter 7
-- [ ] Chapter 8
+- [x] Chapter 8
+- [x] Chapter 9
+- [ ] Chapter 10
 
 
 ### Done:
