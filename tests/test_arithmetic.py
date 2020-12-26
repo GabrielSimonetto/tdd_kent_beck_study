@@ -1,16 +1,18 @@
 import pytest
-from money.dollar import Dollar
+from money.money import Dollar, Franc
 
 @pytest.mark.parametrize(
-    "amount, multiplier, expected",
+    "currency, amount, multiplier, expected",
     [
-        (5, 2, 10),
-        (5, 3, 15),
+        (Dollar, 5, 2, 10),
+        (Dollar, 5, 3, 15),
+        (Franc, 5, 2, 10),
+        (Franc, 5, 3, 15),
     ]
 )
-def test_multiplication_pytest_version(amount, multiplier, expected):
-    dollar = Dollar(amount)
-    assert Dollar(expected) == dollar.times(multiplier)
+def test_multiplication_FRANCS(currency, amount, multiplier, expected):
+    money = currency(amount)
+    assert currency(expected) == money.times(multiplier)
 
 
 def test_equality():
