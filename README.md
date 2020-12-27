@@ -27,3 +27,6 @@ Repository used to follow along Kent Beck's TDD book
 - [x] Dollar/Franc duplication
 - [ ] Common equals
 - [ ] Common times
+- [x] Compare Francs to Dollars
+- [x] Use currency
+- [ ] Delete test franc multiplication?
