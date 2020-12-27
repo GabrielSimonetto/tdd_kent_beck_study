@@ -8,31 +8,29 @@ class Money(ABC):
     def __eq__(self, other):
         return (
             self.amount == other.amount
-            and isinstance(self, type(other))
+            and self.currency == other.currency
         )
 
-    @abstractmethod
-    def times(self, multiplier):
-        pass
+    def times(self, multiplier, currency):
+        return Money(self.amount * multiplier, currency)
 
-    def dollar(amount):
-        return Dollar(amount, "USD")
+    def dollar(amount, currency="USD"):
+        return Dollar(amount, currency)
 
-    def franc(amount):
-        return Franc(amount, "CHF")
+    def franc(amount, currency="CHF"):
+        return Franc(amount, currency)
 
 
 class Dollar(Money):
     def times(self, multiplier: int):
-        return Money.dollar(self.amount * multiplier)
+        return Money(self.amount * multiplier, self.currency)
 
     # def currency(self):
     #     return "USD"
 
 class Franc(Money):
-
     def times(self, multiplier: int):
-        return Money.franc(self.amount * multiplier)  
+        return Money.franc(self.amount * multiplier, self.currency)  
 
     # def currency(self):
     #     return "CHF"

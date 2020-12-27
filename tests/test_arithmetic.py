@@ -27,9 +27,9 @@ def test_equality(currency):
     assert currency(5) != currency(4)
 
 
-def test_non_equal_currency():
-    assert Money.dollar(5) != Money.franc(5)
 
 def test_currency():
     assert "USD" == Money.dollar(1).currency
     assert "CHF" == Money.franc(1).currency
+    assert Money.dollar(5) != Money.franc(5)
+    assert Money(1, "CHF") == Money.franc(1, "CHF")

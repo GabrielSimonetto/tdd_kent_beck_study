@@ -25,8 +25,8 @@ Repository used to follow along Kent Beck's TDD book
 - [ ] Equal object
 - [x] 5 CHF * 2 = 10 CHF
 - [x] Dollar/Franc duplication
-- [ ] Common equals
-- [ ] Common times
+- [x] Common equals
+- [x] Common times
 - [x] Compare Francs to Dollars
 - [x] Use currency
-- [ ] Delete test franc multiplication?
+- [ ] Delete test franc multiplication?l
