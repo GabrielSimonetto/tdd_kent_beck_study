@@ -11,26 +11,11 @@ class Money(ABC):
             and self.currency == other.currency
         )
 
-    def times(self, multiplier, currency):
-        return Money(self.amount * multiplier, currency)
-
-    def dollar(amount, currency="USD"):
-        return Dollar(amount, currency)
-
-    def franc(amount, currency="CHF"):
-        return Franc(amount, currency)
-
-
-class Dollar(Money):
-    def times(self, multiplier: int):
+    def times(self, multiplier):
         return Money(self.amount * multiplier, self.currency)
 
-    # def currency(self):
-    #     return "USD"
+    def dollar(amount):
+        return Money(amount, "USD")
 
-class Franc(Money):
-    def times(self, multiplier: int):
-        return Money.franc(self.amount * multiplier, self.currency)  
-
-    # def currency(self):
-    #     return "CHF"
+    def franc(amount):
+        return Money(amount, "CHF")
