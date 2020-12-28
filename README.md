@@ -10,23 +10,10 @@ Repository used to follow along Kent Beck's TDD book
 - [x] Chapter 7
 - [x] Chapter 8
 - [x] Chapter 9
-- [ ] Chapter 10
-
-
-### Done:
-
-- [ ] $5 + 10 CHF = $10 if rate is 2:1
-- [x] $5 * 2 = $10
-- [x] Dollar side-effects?
-- [ ] Money rounding?
-- [x] equals()
-- [ ] hashCode()
-- [ ] Equal null
-- [ ] Equal object
-- [x] 5 CHF * 2 = 10 CHF
-- [x] Dollar/Franc duplication
-- [x] Common equals
-- [x] Common times
-- [x] Compare Francs to Dollars
-- [x] Use currency
-- [ ] Delete test franc multiplication?l
+- [x] Chapter 10
+- [x] Chapter 11
+- [x] Chapter 12
+- [x] Chapter 13
+- [x] Chapter 14
+- [x] Chapter 15
+- [ ] Chapter 16

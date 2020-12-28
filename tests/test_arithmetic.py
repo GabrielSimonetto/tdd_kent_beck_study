@@ -1,5 +1,5 @@
 import pytest
-from money.money import Money
+from money.money import Money, Bank, Expression, Sum
 
 @pytest.mark.parametrize(
     "currency, amount, multiplier, expected",
@@ -27,9 +27,33 @@ def test_equality(currency):
     assert currency(5) != currency(4)
 
 
-
 def test_currency():
     assert "USD" == Money.dollar(1).currency
     assert "CHF" == Money.franc(1).currency
     assert Money.dollar(5) != Money.franc(5)
     assert Money(1, "CHF") == Money.franc(1)
+
+
+# def test_addition():
+#     sum = Money.dollar(5).sum(Money.dollar(5))
+#     assert sum == Money.dollar(10)
+
+#     sum = Money.franc(5).sum(Money.franc(5))
+#     assert sum == Money.franc(10)
+
+def test_addition_bank():
+    five = Money.dollar(5)
+    sum = five.sum(five) # 10 dollars rn
+    bank = Bank()
+    reduced = bank.reduce(sum, "USD")
+    assert Money.dollar(10) == reduced
+
+    sum = Sum(Money.dollar(3), Money.dollar(4))
+    bank = Bank()
+    reduced = bank.reduce(sum, "USD")
+    assert Money.dollar(7) == reduced
+
+def test_reduce_single_money():
+    bank = Bank()
+    reduced = bank.reduce(Money.dollar(2), "USD")
+    assert Money.dollar(2) == reduced
