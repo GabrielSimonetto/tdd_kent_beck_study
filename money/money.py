@@ -32,31 +32,57 @@ class Money:
     def franc(amount):
         return Money(amount, "CHF")
 
-    def reduce(self, currency_to):
-        return self
+    def reduce(self, currency_to, bank):
+        rate = bank.get_rate(self.currency, currency_to)
+        return Money(self.amount // rate, currency_to)
 
 
 class Bank:
+    def __init__(self):
+        self.rates = dict()
+
     def reduce(self, expression_source, currency_to):
-        return expression_source.reduce(currency_to)
+        return expression_source.reduce(currency_to, self)
 
-        # if isinstance(expression_source, Money):
-        #     return Money(expression_source.amount, currency_to)
+    def add_rate(self, _from, to, rate):
+        self.rates[CurrencyPair(_from, to)] = rate
 
-        # return Money(
-        #     expression_source.augend.amount + expression_source.addend.amount,
-        #     currency_to)
+    def get_rate(self, currency_from, currency_to):
+        if currency_from == currency_to:
+            return 1
+
+        return self.rates[CurrencyPair(currency_from, currency_to)]
+        # return 2 if (currency_from == "CHF" and currency_to == "USD") else 1
+
+class CurrencyPair():
+    def __init__(self, _from, to):
+        self._from = _from
+        self.to = to
+
+    def __hash__(self):
+        return 0
+
+    def __repr__(self):
+        return f"({self._from}: {self.to})"
+
+    def __eq__(self, other):
+        return (
+            self._from == other._from
+            and self.to == other.to
+        )
 
 class Expression(ABC):
     pass
 
 class Sum(Expression):
-    def __init__(self, augend: Money, addend):
+    def __init__(self, augend, addend):
         self.augend = augend
         self.addend = addend
 
-    def reduce(self, currency_to):
-        return Money(
-            self.augend.amount + self.addend.amount,
-            currency_to
-        )        
+    def reduce(self, currency_to, bank):
+        amount = (
+            self.augend.reduce(currency_to, bank).amount
+            + self.addend.reduce(currency_to, bank).amount
+        )
+
+        return Money(amount, currency_to)        

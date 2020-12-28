@@ -3,7 +3,11 @@ from money.money import Money, Bank, Expression, Sum
 
 @pytest.fixture
 def bank():
-    return Bank()
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    # bank.add_rate("USD", "USD", 1)
+    # bank.add_rate("CHF", "CHF", 1)
+    return bank
 
 
 @pytest.mark.parametrize(
@@ -57,6 +61,29 @@ def test_addition_bank(bank):
     assert Money.dollar(7) == reduced
 
 def test_reduce_single_money(bank):
-    bank = Bank()
+    bank = Bank()   
     reduced = bank.reduce(Money.dollar(2), "USD")
     assert Money.dollar(2) == reduced
+
+def test_reduce_different_currency_money(bank):
+    result = bank.reduce(Money.franc(2), "USD")
+    assert Money.dollar(1) == result
+
+def test_identity_rate(bank):
+    assert 1 == bank.get_rate("USD", "USD")
+
+def test_mixed_addition(bank):
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    # result = bank.reduce(five_bucks.sum(ten_francs))
+    sum = Sum(five_bucks, ten_francs)
+    result = bank.reduce(sum, "USD")
+    assert result == Money.dollar(10)
+
+def test_sum_plus_money(bank):
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    # result = bank.reduce(five_bucks.sum(ten_francs))
+    sum = Sum(five_bucks, ten_francs).plus_five_bucks
+    result = bank.reduce(sum, "USD")
+    assert result == Money.dollar(10)
