@@ -1,5 +1,5 @@
 import pytest
-from money.money import Money, Bank, Expression, Sum
+from money.money import Money, Bank, Sum
 
 @pytest.fixture
 def bank():

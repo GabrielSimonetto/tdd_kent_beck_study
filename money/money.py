@@ -1,6 +1,20 @@
 from abc import ABC, abstractmethod
 
-class Money:
+class Operations(ABC):
+    @abstractmethod
+    def reduce(self, currency_to, bank):
+        pass
+    
+    @abstractmethod
+    def sum(self, other):
+        pass
+
+    @abstractmethod
+    def times(self, multiplier):
+        pass
+
+
+class Money(Operations):
     def __init__(self, amount: int, currency: str):
         self.amount = amount
         self.currency = currency
@@ -49,7 +63,6 @@ class Bank:
             return 1
 
         return self.rates[CurrencyPair(currency_from, currency_to)]
-        # return 2 if (currency_from == "CHF" and currency_to == "USD") else 1
 
 class CurrencyPair():
     def __init__(self, _from, to):
@@ -68,10 +81,7 @@ class CurrencyPair():
             and self.to == other.to
         )
 
-class Expression(ABC):
-    pass
-
-class Sum(Expression):
+class Sum(Operations):
     def __init__(self, augend, addend):
         self.augend = augend
         self.addend = addend
