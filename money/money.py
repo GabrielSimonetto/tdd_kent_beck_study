@@ -17,9 +17,6 @@ class Money:
     def __repr__(self):
         return f"{self.amount} {self.currency}"
 
-    # def sum(self, other):
-    #     return Money(self.amount + other.amount, self.currency)
-
     def sum(self, other):
         return Sum(self, other)
 
@@ -86,3 +83,9 @@ class Sum(Expression):
         )
 
         return Money(amount, currency_to)        
+
+    def sum(self, other):
+        return Sum(self, other)
+
+    def times(self, multiplier):
+        return Sum(self.augend.times(multiplier), self.addend.times(multiplier))

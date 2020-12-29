@@ -84,6 +84,13 @@ def test_sum_plus_money(bank):
     five_bucks = Money.dollar(5)
     ten_francs = Money.franc(10)
     # result = bank.reduce(five_bucks.sum(ten_francs))
-    sum = Sum(five_bucks, ten_francs).plus_five_bucks
+    sum = Sum(five_bucks, ten_francs).sum(five_bucks)
     result = bank.reduce(sum, "USD")
-    assert result == Money.dollar(10)
+    assert result == Money.dollar(15)
+
+def test_sum_plus_money(bank):
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    sum = Sum(five_bucks, ten_francs).times(2)
+    result = bank.reduce(sum, "USD")
+    assert result == Money.dollar(20)

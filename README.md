@@ -18,4 +18,5 @@ Repository used to follow along Kent Beck's TDD book
 - [x] Chapter 15
 - [x] Chapter 16
 - [x] Chapter 17
-- [ ] Chapter 18 
+- [x] Chapter 18 
+- [ ] Chapter 19
