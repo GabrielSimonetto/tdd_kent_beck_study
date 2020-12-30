@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from math import floor
 
 class Operations(ABC):
     @abstractmethod
@@ -45,12 +46,16 @@ class Money(Operations):
 
     def reduce(self, currency_to, bank):
         rate = bank.get_rate(self.currency, currency_to)
-        return Money(self.amount // rate, currency_to)
+        # we use floor in order to deal only with integers for this demo
+        return Money(floor(self.amount // rate), currency_to)
 
 
 class Bank:
     def __init__(self):
         self.rates = dict()
+
+    def __repr__(self):
+        return f"{self.rates}"
 
     def reduce(self, expression_source, currency_to):
         return expression_source.reduce(currency_to, self)
@@ -70,10 +75,10 @@ class CurrencyPair():
         self.to = to
 
     def __hash__(self):
-        return 0
+        return hash(self._from) ^ hash(self.to)
 
     def __repr__(self):
-        return f"({self._from}: {self.to})"
+        return f"({self._from} - {self.to})"
 
     def __eq__(self, other):
         return (

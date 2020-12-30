@@ -5,8 +5,7 @@ from money.money import Money, Bank, Sum
 def bank():
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
-    # bank.add_rate("USD", "USD", 1)
-    # bank.add_rate("CHF", "CHF", 1)
+    bank.add_rate("USD", "CHF", 0.5)
     return bank
 
 
@@ -81,12 +80,14 @@ def test_mixed_addition(bank):
     assert result == Money.dollar(10)
 
 def test_sum_plus_money(bank):
-    five_bucks = Money.dollar(5)
+    ten_bucks = Money.dollar(10)
     ten_francs = Money.franc(10)
-    # result = bank.reduce(five_bucks.sum(ten_francs))
-    sum = Sum(five_bucks, ten_francs).sum(five_bucks)
+    sum = Sum(ten_bucks, ten_francs).sum(ten_bucks)
     result = bank.reduce(sum, "USD")
-    assert result == Money.dollar(15)
+    assert result == Money.dollar(25)
+
+    result = bank.reduce(sum, "CHF")
+    assert result == Money.franc(50)
 
 def test_sum_plus_money(bank):
     five_bucks = Money.dollar(5)
@@ -94,3 +95,6 @@ def test_sum_plus_money(bank):
     sum = Sum(five_bucks, ten_francs).times(2)
     result = bank.reduce(sum, "USD")
     assert result == Money.dollar(20)
+
+
+    
