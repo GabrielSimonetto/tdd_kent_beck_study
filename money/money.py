@@ -7,11 +7,11 @@ class Operations(ABC):
         pass
     
     @abstractmethod
-    def sum(self, other):
+    def __add__(self, other):
         pass
 
     @abstractmethod
-    def times(self, multiplier):
+    def __mul__(self, multiplier):
         pass
 
 
@@ -32,10 +32,14 @@ class Money(Operations):
     def __repr__(self):
         return f"{self.amount} {self.currency}"
 
-    def sum(self, other):
-        return Sum(self, other)
+    def __add__(self, other):
+        return (
+            Money(self.amount + other.amount, self.currency)
+            if self.currency == other.currency
+            else Sum(self, other)
+        )
 
-    def times(self, multiplier):
+    def __mul__(self, multiplier):
         return Money(self.amount * multiplier, self.currency)
 
     def dollar(amount):
@@ -99,8 +103,8 @@ class Sum(Operations):
 
         return Money(amount, currency_to)        
 
-    def sum(self, other):
+    def __add__(self, other):
         return Sum(self, other)
 
-    def times(self, multiplier):
-        return Sum(self.augend.times(multiplier), self.addend.times(multiplier))
+    def __mul__(self, multiplier):
+        return Sum(self.augend * multiplier, self.addend * multiplier)

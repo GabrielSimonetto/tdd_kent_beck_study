@@ -8,6 +8,14 @@ def bank():
     bank.add_rate("USD", "CHF", 0.5)
     return bank
 
+@pytest.fixture
+def four_bucks():
+    return Money.dollar(4)
+
+@pytest.fixture
+def four_francs():
+    return Money.franc(4)
+
 
 @pytest.mark.parametrize(
     "currency, amount, multiplier, expected",
@@ -20,7 +28,7 @@ def bank():
 )
 def test_multiplication(currency, amount, multiplier, expected):
     money = currency(amount)
-    assert currency(expected) == money.times(multiplier)
+    assert currency(expected) == money * multiplier
 
 
 @pytest.mark.parametrize(
@@ -35,66 +43,64 @@ def test_equality(currency):
     assert currency(5) != currency(4)
 
 
-def test_currency():
-    assert "USD" == Money.dollar(1).currency
-    assert "CHF" == Money.franc(1).currency
-    assert Money.dollar(5) != Money.franc(5)
-    assert Money(1, "CHF") == Money.franc(1)
+def test_currency(four_bucks, four_francs):
+    assert "USD" == four_bucks.currency
+    assert "CHF" == four_francs.currency
+    assert four_bucks != four_francs
+    assert Money(4, "CHF") == four_francs
 
 
-# def test_addition():
-#     sum = Money.dollar(5).sum(Money.dollar(5))
-#     assert sum == Money.dollar(10)
+def test_addition(four_bucks):
+    sum = four_bucks + four_bucks
+    expected = 8
+    assert sum == Money.dollar(expected)
 
-#     sum = Money.franc(5).sum(Money.franc(5))
-#     assert sum == Money.franc(10)
 
-def test_addition_bank(bank):
-    five = Money.dollar(5)
-    sum = five.sum(five) # 10 dollars rn
+def test_addition_bank(bank, four_bucks):
+    sum = four_bucks + four_bucks
     reduced = bank.reduce(sum, "USD")
-    assert Money.dollar(10) == reduced
+    expected = 8
+    assert Money.dollar(expected) == reduced
 
-    sum = Sum(Money.dollar(3), Money.dollar(4))
+    sum = Money.dollar(3) + Money.dollar(0)
     reduced = bank.reduce(sum, "USD")
-    assert Money.dollar(7) == reduced
+    expected = 3
+    assert Money.dollar(expected) == reduced
 
-def test_reduce_single_money(bank):
+def test_reduce_single_money(bank, four_bucks):
     bank = Bank()   
-    reduced = bank.reduce(Money.dollar(2), "USD")
-    assert Money.dollar(2) == reduced
+    reduced = bank.reduce(four_bucks, "USD")
+    assert four_bucks == reduced
 
-def test_reduce_different_currency_money(bank):
-    result = bank.reduce(Money.franc(2), "USD")
-    assert Money.dollar(1) == result
+def test_reduce_different_currency_money(bank, four_francs):
+    result = bank.reduce(four_francs, "USD")
+    expected = 2
+    assert Money.dollar(expected) == result
 
 def test_identity_rate(bank):
     assert 1 == bank.get_rate("USD", "USD")
 
-def test_mixed_addition(bank):
-    five_bucks = Money.dollar(5)
-    ten_francs = Money.franc(10)
-    # result = bank.reduce(five_bucks.sum(ten_francs))
-    sum = Sum(five_bucks, ten_francs)
+def test_mixed_addition(bank, four_bucks, four_francs):
+    sum = Sum(four_bucks, four_francs)
     result = bank.reduce(sum, "USD")
-    assert result == Money.dollar(10)
+    expected = 6
+    assert result == Money.dollar(expected)
 
-def test_sum_plus_money(bank):
-    ten_bucks = Money.dollar(10)
-    ten_francs = Money.franc(10)
-    sum = Sum(ten_bucks, ten_francs).sum(ten_bucks)
+def test_sum_plus_money(bank, four_bucks, four_francs):
+    sum = four_bucks + four_francs + four_bucks
     result = bank.reduce(sum, "USD")
-    assert result == Money.dollar(25)
+    expected = 10
+    assert result == Money.dollar(expected)
 
     result = bank.reduce(sum, "CHF")
-    assert result == Money.franc(50)
+    expected = 20
+    assert result == Money.franc(expected)
 
-def test_sum_plus_money(bank):
-    five_bucks = Money.dollar(5)
-    ten_francs = Money.franc(10)
-    sum = Sum(five_bucks, ten_francs).times(2)
+def test_sum_plus_money(bank, four_bucks, four_francs):
+    sum = (four_bucks + four_francs) * 2
     result = bank.reduce(sum, "USD")
-    assert result == Money.dollar(20)
+    expected = 12
+    assert result == Money.dollar(expected)
 
 
     
