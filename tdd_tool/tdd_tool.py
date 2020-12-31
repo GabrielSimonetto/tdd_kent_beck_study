@@ -4,7 +4,7 @@ class TestCase():
 
     def run(self):
         exec(f"self.{self.name}()")
-
+        print(f"{self.name} is working")
 
 class WasRun(TestCase):
     def __init__(self, name):
