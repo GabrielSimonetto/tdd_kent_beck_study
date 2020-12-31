@@ -1,6 +1,11 @@
 # tdd_kent_beck_study
 Repository used to follow along Kent Beck's TDD book
 
+tdd_kent_beck_study
+├── money    (chapters 1 through 19)
+└── tdd_tool
+
+
 ### Tracking:
 
 - [x] Chapter 3
@@ -19,4 +24,6 @@ Repository used to follow along Kent Beck's TDD book
 - [x] Chapter 16
 - [x] Chapter 17
 - [x] Chapter 18 
-- [ ] Chapter 19
+- [x] Chapter 19
+- [x] Chapter 20
+- [ ] Chapter 21
