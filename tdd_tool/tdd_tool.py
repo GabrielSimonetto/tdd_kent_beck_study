@@ -11,7 +11,10 @@ class TestCase(ABC):
         result = TestResult()
         result.test_started()
         self.set_up()
-        exec(f"self.{self.name}()")
+        try:
+            exec(f"self.{self.name}()")
+        except:
+            result.test_failed()
         print(f"{self.name} is working")
         self.teardown()
         return result
@@ -29,12 +32,16 @@ class TestCase(ABC):
 class TestResult():
     def __init__(self):
         self.run_count = 0
+        self.error_count = 0
 
     def test_started(self):
         self.run_count += 1
 
+    def test_failed(self):
+        self.error_count += 1
+
     def summary(self):
-        return f"{self.run_count} run, 0 failed"
+        return f"{self.run_count} run, {self.error_count} failed"
 
 
 class WasRun(TestCase):
@@ -48,8 +55,6 @@ class WasRun(TestCase):
         self.was_run = True
         self.log += "test_method "
 
-    # we aren't catching this exception!
-    # this makes it so our tests halt instead of carrying on.
     def test_broken_method(self):
         raise Exception
 
