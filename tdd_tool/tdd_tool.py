@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 class TestCase(ABC):
     def __init__(self, name):
@@ -7,24 +7,19 @@ class TestCase(ABC):
         self.was_set_up = False
         self.log = ""
 
-    def run(self):
-        result = TestResult()
+    def run(self, result):
         result.test_started()
         self.set_up()
         try:
             exec(f"self.{self.name}()")
         except:
             result.test_failed()
-        print(f"{self.name} is working")
         self.teardown()
         return result
 
-    # @abstractmethod
-    # ainda nao funciona, WasRun eh muito diferente de TestCaseTest
     def set_up(self):
         pass
 
-    # @abstractmethod
     def teardown(self):
         pass
 
@@ -45,7 +40,6 @@ class TestResult():
 
 
 class WasRun(TestCase):
-
     def set_up(self):
         self.was_run = False
         self.was_set_up = True
@@ -60,3 +54,15 @@ class WasRun(TestCase):
 
     def teardown(self):
         self.log += "teardown "
+
+
+class TestSuite:
+    def __init__(self):
+        self.tests = []
+
+    def add(self, test):
+        self.tests.append(test)
+
+    def run(self, result):
+        for test in self.tests:
+            test.run(result)
